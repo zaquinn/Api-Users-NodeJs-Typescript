@@ -3,9 +3,9 @@ import userListOneService from "../../services/user/userListOne.service";
 
 const userListOneController = async (request: Request, response: Response) => {
   try {
-    const user = await userListOneService({
-      authorization: request.headers.authorization,
-    });
+    const email = request.userEmail;
+
+    const user = await userListOneService(email);
 
     return response.status(200).send(user);
   } catch (error) {
