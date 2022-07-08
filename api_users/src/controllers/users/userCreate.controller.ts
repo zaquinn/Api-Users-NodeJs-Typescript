@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { AppError, handleError } from "../../errors/appError";
 import userCreateService from "../../services/user/userCreate.service";
 
 const userCreateController = async (request: Request, response: Response) => {
@@ -9,11 +10,8 @@ const userCreateController = async (request: Request, response: Response) => {
 
     return response.status(201).send(newUser);
   } catch (error) {
-    if (error instanceof Error) {
-      return response.status(400).send({
-        error: error.name,
-        message: error.message,
-      });
+    if (error instanceof AppError) {
+      handleError(error, response);
     }
   }
 };

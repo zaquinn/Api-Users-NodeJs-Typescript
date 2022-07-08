@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { AppError, handleError } from "../../errors/appError";
 import userDeleteSelfService from "../../services/user/userDeleteSelf.service";
 
 const userDeleteSelfController = async (
@@ -12,11 +13,8 @@ const userDeleteSelfController = async (
 
     return response.status(200).json({ message: "User deleted with success!" });
   } catch (error) {
-    if (error instanceof Error) {
-      return response.status(401).send({
-        error: error.name,
-        message: error.message,
-      });
+    if (error instanceof AppError) {
+      handleError(error, response);
     }
   }
 };

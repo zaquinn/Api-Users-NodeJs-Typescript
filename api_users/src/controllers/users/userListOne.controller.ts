@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { AppError, handleError } from "../../errors/appError";
 import userListOneService from "../../services/user/userListOne.service";
 
 const userListOneController = async (request: Request, response: Response) => {
@@ -9,11 +10,8 @@ const userListOneController = async (request: Request, response: Response) => {
 
     return response.status(200).send(user);
   } catch (error) {
-    if (error instanceof Error) {
-      return response.status(401).send({
-        error: error.name,
-        message: error.message,
-      });
+    if (error instanceof AppError) {
+      handleError(error, response);
     }
   }
 };
