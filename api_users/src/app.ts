@@ -1,12 +1,12 @@
 import express, { Request, Response, NextFunction } from "express";
 import { AppError } from "./errors/appError";
-import routes from "./routes/user.routes";
+import { appRoutes } from "./routes";
 
 const app = express();
 
 app.use(express.json());
 
-app.use(routes);
+appRoutes(app);
 
 app.use(
   (error: Error, request: Request, response: Response, _: NextFunction) => {

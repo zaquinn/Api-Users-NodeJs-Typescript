@@ -1,8 +1,6 @@
 import { Router } from "express";
 import { authUser } from "../middlewares/authUser.middleware";
 
-const routes = Router();
-
 import userCreateController from "../controllers/users/userCreate.controller";
 import userListController from "../controllers/users/userList.controller";
 import userListOneController from "../controllers/users/userListOne.controller";
@@ -13,20 +11,16 @@ import userUpdatePasswordController from "../controllers/users/userUpdatePasswor
 import { userCreateSchema } from "../middlewares/validateUserCreate.middleware";
 import { validateUserCreate } from "../middlewares/validateUserCreate.middleware";
 
-routes.post(
-  "/users",
-  validateUserCreate(userCreateSchema),
-  userCreateController
-);
-routes.post("/users/login", userLoginController);
-routes.get("/users", userListController);
-routes.get("/users/me", authUser, userListOneController);
+const routes = Router();
 
-routes.patch(
-  "/users/me/updatepassword",
-  authUser,
-  userUpdatePasswordController
-);
-routes.delete("/users/me", authUser, userDeleteSelfController);
+export const userRoutes = () => {
+  routes.post("/", validateUserCreate(userCreateSchema), userCreateController);
+  routes.post("/login", userLoginController);
+  routes.get("/", userListController);
+  routes.get("/me", authUser, userListOneController);
 
-export default routes;
+  routes.patch("/me/updatepassword", authUser, userUpdatePasswordController);
+  routes.delete("/me", authUser, userDeleteSelfController);
+
+  return routes;
+};

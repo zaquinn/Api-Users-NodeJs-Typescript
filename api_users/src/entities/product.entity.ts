@@ -1,9 +1,8 @@
 import { Entity, Column, PrimaryColumn, OneToOne, JoinColumn } from "typeorm";
 import { v4 as uuid } from "uuid";
-import { Cart } from "./cart.entity";
 
 @Entity()
-export class User {
+export class Product {
   @PrimaryColumn("uuid")
   readonly id: string;
 
@@ -11,16 +10,10 @@ export class User {
   name: string;
 
   @Column()
-  email: string;
+  description: string;
 
-  @Column()
-  password: string;
-
-  @OneToOne((type) => Cart, {
-    eager: true,
-  })
-  @JoinColumn()
-  cart: Cart;
+  @Column("float")
+  price: number;
 
   constructor() {
     if (!this.id) {
